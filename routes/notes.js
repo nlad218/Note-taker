@@ -1,5 +1,9 @@
 const router = require("express").Router();
-const { readAndAppend, readFromFile } = require("../helpers/fsUtils");
+const {
+  readAndAppend,
+  readFromFile,
+  readAndRemove,
+} = require("../helpers/fsUtils");
 const uuid = require("../helpers/uuid");
 
 // GET Route for retrieving all the feedback
@@ -30,8 +34,14 @@ router.post("/", (req, res) => {
 
     res.json(response);
   } else {
-    res.json("Error in posting feedback");
+    res.json("Error in posting note");
   }
+});
+
+router.delete("/:id", (req, res) => {
+  readAndRemove(req.params.id, "./db/notes.json");
+
+  res.json("deleted");
 });
 
 module.exports = router;
